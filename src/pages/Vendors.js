@@ -177,77 +177,111 @@ function Vendors() {
   };
 
   return (
-    <Box>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 3 }}>
-        <Typography variant="h4" fontWeight="bold">
-          Vendors
+    <Box sx={{ py: 1 }}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4 }}>
+        <Typography variant="h4" fontWeight="800" sx={{ letterSpacing: '-0.8px', fontFamily: '"Outfit", sans-serif' }}>
+          Vendor Partners
         </Typography>
         <Button
           variant="contained"
+          color="primary"
           startIcon={<AddIcon />}
           onClick={() => handleOpenDialog()}
+          sx={{ borderRadius: '10px', fontWeight: 'bold', background: 'linear-gradient(135deg, #6366f1 0%, #4f46e5 100%)' }}
         >
           Add Vendor
         </Button>
       </Box>
 
-      <TableContainer component={Paper}>
+      <TableContainer 
+        component={Paper} 
+        elevation={0}
+        sx={{ 
+          borderRadius: '16px', 
+          border: '1px solid rgba(226, 232, 240, 0.8)', 
+          boxShadow: '0 4px 20px -2px rgba(15, 23, 42, 0.05)',
+          overflow: 'hidden'
+        }}
+      >
         <Table>
-          <TableHead>
+          <TableHead sx={{ bgcolor: 'rgba(248, 250, 252, 0.8)' }}>
             <TableRow>
-              <TableCell>Business Name</TableCell>
-              <TableCell>Contact</TableCell>
-              <TableCell>Location</TableCell>
-              <TableCell>Services</TableCell>
-              <TableCell>Status</TableCell>
-              <TableCell>Actions</TableCell>
+              <TableCell sx={{ fontWeight: '700', color: 'text.secondary', textTransform: 'uppercase', fontSize: '0.75rem', letterSpacing: '0.8px', py: 2 }}>Business Name</TableCell>
+              <TableCell sx={{ fontWeight: '700', color: 'text.secondary', textTransform: 'uppercase', fontSize: '0.75rem', letterSpacing: '0.8px', py: 2 }}>Contact Info</TableCell>
+              <TableCell sx={{ fontWeight: '700', color: 'text.secondary', textTransform: 'uppercase', fontSize: '0.75rem', letterSpacing: '0.8px', py: 2 }}>Location</TableCell>
+              <TableCell sx={{ fontWeight: '700', color: 'text.secondary', textTransform: 'uppercase', fontSize: '0.75rem', letterSpacing: '0.8px', py: 2 }}>Offerings</TableCell>
+              <TableCell sx={{ fontWeight: '700', color: 'text.secondary', textTransform: 'uppercase', fontSize: '0.75rem', letterSpacing: '0.8px', py: 2 }}>Status</TableCell>
+              <TableCell align="right" sx={{ fontWeight: '700', color: 'text.secondary', textTransform: 'uppercase', fontSize: '0.75rem', letterSpacing: '0.8px', py: 2, pr: 3 }}>Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {vendors.map((vendor) => (
-              <TableRow key={vendor._id}>
-                <TableCell>
-                  <Typography fontWeight="medium">{vendor.businessName}</Typography>
-                  <Typography variant="body2" color="textSecondary">{vendor.name}</Typography>
+              <TableRow 
+                key={vendor._id}
+                sx={{ 
+                  '&:hover': { bgcolor: 'rgba(99, 102, 241, 0.02)' }, 
+                  transition: 'background-color 0.2s ease',
+                  '&:last-child td, &:last-child th': { border: 0 }
+                }}
+              >
+                <TableCell sx={{ py: 2.2 }}>
+                  <Typography fontWeight="700" color="text.primary" sx={{ fontSize: '0.95rem' }}>{vendor.businessName}</Typography>
+                  <Typography variant="body2" color="text.secondary">{vendor.name}</Typography>
                 </TableCell>
-                <TableCell>
-                  <Typography variant="body2">{vendor.email}</Typography>
-                  <Typography variant="body2" color="textSecondary">{vendor.phone}</Typography>
+                <TableCell sx={{ py: 2.2 }}>
+                  <Typography variant="body2" fontWeight="500">{vendor.email}</Typography>
+                  <Typography variant="body2" color="text.secondary">{vendor.phone}</Typography>
                 </TableCell>
-                <TableCell>
-                  <Typography variant="body2">{vendor.address?.city || 'N/A'}</Typography>
+                <TableCell sx={{ py: 2.2 }}>
+                  <Typography variant="body2" color="text.primary" fontWeight="500">{vendor.address?.city || 'N/A'}</Typography>
                 </TableCell>
-                <TableCell>
+                <TableCell sx={{ py: 2.2 }}>
                   <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
                     {vendor.services.slice(0, 3).map((s, i) => (
                       <Chip
                         key={i}
                         label={s.service?.name}
                         size="small"
-                        color={s.enabled ? 'success' : 'default'}
+                        variant="outlined"
+                        sx={{ 
+                          fontWeight: '600', 
+                          borderRadius: '6px',
+                          color: s.enabled ? 'primary.main' : 'text.secondary',
+                          borderColor: s.enabled ? 'primary.light' : 'divider'
+                        }}
                       />
                     ))}
                     {vendor.services.length > 3 && (
-                      <Chip label={`+${vendor.services.length - 3}`} size="small" />
+                      <Chip 
+                        label={`+${vendor.services.length - 3}`} 
+                        size="small" 
+                        sx={{ fontWeight: '600', borderRadius: '6px' }}
+                      />
                     )}
                   </Box>
                 </TableCell>
-                <TableCell>
+                <TableCell sx={{ py: 2.2 }}>
                   <Chip
                     label={vendor.isActive ? 'Active' : 'Inactive'}
-                    color={vendor.isActive ? 'success' : 'error'}
                     size="small"
+                    sx={{ 
+                      fontWeight: 'bold', 
+                      borderRadius: '6px',
+                      bgcolor: vendor.isActive ? 'rgba(16, 185, 129, 0.1)' : 'rgba(239, 68, 68, 0.1)',
+                      color: vendor.isActive ? '#10b981' : '#ef4444',
+                      border: 'none'
+                    }}
                   />
                 </TableCell>
-                <TableCell>
-                  <IconButton onClick={() => handleOpenDialog(vendor)}>
-                    <EditIcon />
+                <TableCell align="right" sx={{ py: 2.2, pr: 2 }}>
+                  <IconButton onClick={() => handleOpenDialog(vendor)} size="small" sx={{ mr: 0.5, color: 'text.secondary', '&:hover': { color: 'primary.main', bgcolor: 'rgba(99,102,241,0.06)' } }}>
+                    <EditIcon fontSize="small" />
                   </IconButton>
-                  <IconButton onClick={() => handleToggleStatus(vendor._id)}>
-                    {vendor.isActive ? <BlockIcon color="error" /> : <ActivateIcon color="success" />}
+                  <IconButton onClick={() => handleToggleStatus(vendor._id)} size="small" sx={{ mr: 0.5, color: 'text.secondary', '&:hover': { color: vendor.isActive ? 'error.main' : 'success.main', bgcolor: vendor.isActive ? 'rgba(239,68,68,0.06)' : 'rgba(16,185,129,0.06)' } }}>
+                    {vendor.isActive ? <BlockIcon fontSize="small" /> : <ActivateIcon fontSize="small" />}
                   </IconButton>
-                  <IconButton onClick={() => handleDelete(vendor._id)}>
-                    <DeleteIcon color="error" />
+                  <IconButton onClick={() => handleDelete(vendor._id)} size="small" sx={{ color: 'text.secondary', '&:hover': { color: 'error.main', bgcolor: 'rgba(239,68,68,0.06)' } }}>
+                    <DeleteIcon fontSize="small" />
                   </IconButton>
                 </TableCell>
               </TableRow>
@@ -256,12 +290,20 @@ function Vendors() {
         </Table>
       </TableContainer>
 
-      <Dialog open={dialogOpen} onClose={handleCloseDialog} maxWidth="md" fullWidth>
-        <DialogTitle>
-          {editingVendor ? 'Edit Vendor' : 'Add New Vendor'}
+      <Dialog 
+        open={dialogOpen} 
+        onClose={handleCloseDialog} 
+        maxWidth="md" 
+        fullWidth
+        PaperProps={{
+          sx: { borderRadius: '20px', p: 1 }
+        }}
+      >
+        <DialogTitle sx={{ fontWeight: '800', fontFamily: '"Outfit", sans-serif', fontSize: '1.25rem', pb: 1 }}>
+          {editingVendor ? '✏️ Edit Vendor Partner' : '🤝 Add New Vendor Partner'}
         </DialogTitle>
         <DialogContent>
-          {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
+          {error && <Alert severity="error" variant="outlined" sx={{ mb: 2, borderRadius: '10px' }}>{error}</Alert>}
           <Grid container spacing={2} sx={{ mt: 1 }}>
             <Grid item xs={12} sm={6}>
               <TextField

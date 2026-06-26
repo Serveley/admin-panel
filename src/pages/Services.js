@@ -170,71 +170,99 @@ function Services() {
   };
 
   return (
-    <Box>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 3 }}>
-        <Typography variant="h4" fontWeight="bold">
-          Services
+    <Box sx={{ py: 1 }}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4 }}>
+        <Typography variant="h4" fontWeight="800" sx={{ letterSpacing: '-0.8px', fontFamily: '"Outfit", sans-serif' }}>
+          Services Catalog
         </Typography>
         <Box sx={{ display: 'flex', gap: 2 }}>
           <Button
             variant="outlined"
+            color="primary"
             startIcon={<SeedIcon />}
             onClick={handleSeedServices}
+            sx={{ borderRadius: '10px', fontWeight: 'bold' }}
           >
             Seed Defaults
           </Button>
           <Button
             variant="contained"
+            color="primary"
             startIcon={<AddIcon />}
             onClick={() => handleOpenDialog()}
+            sx={{ borderRadius: '10px', fontWeight: 'bold', background: 'linear-gradient(135deg, #6366f1 0%, #4f46e5 100%)' }}
           >
             Add Service
           </Button>
         </Box>
       </Box>
 
-      <TableContainer component={Paper}>
+      <TableContainer 
+        component={Paper} 
+        elevation={0}
+        sx={{ 
+          borderRadius: '16px', 
+          border: '1px solid rgba(226, 232, 240, 0.8)', 
+          boxShadow: '0 4px 20px -2px rgba(15, 23, 42, 0.05)',
+          overflow: 'hidden'
+        }}
+      >
         <Table>
-          <TableHead>
+          <TableHead sx={{ bgcolor: 'rgba(248, 250, 252, 0.8)' }}>
             <TableRow>
-              <TableCell>Name</TableCell>
-              <TableCell>Category</TableCell>
-              <TableCell>Description</TableCell>
-              <TableCell>Status</TableCell>
-              <TableCell>Actions</TableCell>
+              <TableCell sx={{ fontWeight: '700', color: 'text.secondary', textTransform: 'uppercase', fontSize: '0.75rem', letterSpacing: '0.8px', py: 2 }}>Name</TableCell>
+              <TableCell sx={{ fontWeight: '700', color: 'text.secondary', textTransform: 'uppercase', fontSize: '0.75rem', letterSpacing: '0.8px', py: 2 }}>Category</TableCell>
+              <TableCell sx={{ fontWeight: '700', color: 'text.secondary', textTransform: 'uppercase', fontSize: '0.75rem', letterSpacing: '0.8px', py: 2 }}>Description</TableCell>
+              <TableCell sx={{ fontWeight: '700', color: 'text.secondary', textTransform: 'uppercase', fontSize: '0.75rem', letterSpacing: '0.8px', py: 2 }}>Status</TableCell>
+              <TableCell align="right" sx={{ fontWeight: '700', color: 'text.secondary', textTransform: 'uppercase', fontSize: '0.75rem', letterSpacing: '0.8px', py: 2, pr: 3 }}>Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {services.map((service) => (
-              <TableRow key={service._id}>
-                <TableCell>
-                  <Typography fontWeight="medium">{service.name}</Typography>
+              <TableRow 
+                key={service._id}
+                sx={{ 
+                  '&:hover': { bgcolor: 'rgba(99, 102, 241, 0.02)' }, 
+                  transition: 'background-color 0.2s ease',
+                  '&:last-child td, &:last-child th': { border: 0 }
+                }}
+              >
+                <TableCell sx={{ py: 2.2 }}>
+                  <Typography fontWeight="700" color="text.primary" sx={{ fontSize: '0.95rem' }}>{service.name}</Typography>
                 </TableCell>
-                <TableCell>
+                <TableCell sx={{ py: 2.2 }}>
                   <Chip
                     label={service.category}
                     color={getCategoryColor(service.category)}
                     size="small"
+                    variant="outlined"
+                    sx={{ fontWeight: '600', borderRadius: '6px' }}
                   />
                 </TableCell>
-                <TableCell>
-                  <Typography variant="body2" sx={{ maxWidth: 300 }} noWrap>
+                <TableCell sx={{ py: 2.2 }}>
+                  <Typography variant="body2" color="text.secondary" sx={{ maxWidth: 320, lineHeight: 1.5 }} noWrap>
                     {service.description}
                   </Typography>
                 </TableCell>
-                <TableCell>
+                <TableCell sx={{ py: 2.2 }}>
                   <Chip
                     label={service.isActive ? 'Active' : 'Inactive'}
-                    color={service.isActive ? 'success' : 'error'}
                     size="small"
+                    sx={{ 
+                      fontWeight: 'bold', 
+                      borderRadius: '6px',
+                      bgcolor: service.isActive ? 'rgba(16, 185, 129, 0.1)' : 'rgba(239, 68, 68, 0.1)',
+                      color: service.isActive ? '#10b981' : '#ef4444',
+                      border: 'none'
+                    }}
                   />
                 </TableCell>
-                <TableCell>
-                  <IconButton onClick={() => handleOpenDialog(service)}>
-                    <EditIcon />
+                <TableCell align="right" sx={{ py: 2.2, pr: 2 }}>
+                  <IconButton onClick={() => handleOpenDialog(service)} size="small" sx={{ mr: 1, color: 'text.secondary', '&:hover': { color: 'primary.main', bgcolor: 'rgba(99,102,241,0.06)' } }}>
+                    <EditIcon fontSize="small" />
                   </IconButton>
-                  <IconButton onClick={() => handleDelete(service._id)}>
-                    <DeleteIcon color="error" />
+                  <IconButton onClick={() => handleDelete(service._id)} size="small" sx={{ color: 'text.secondary', '&:hover': { color: 'error.main', bgcolor: 'rgba(239,68,68,0.06)' } }}>
+                    <DeleteIcon fontSize="small" />
                   </IconButton>
                 </TableCell>
               </TableRow>
@@ -243,12 +271,20 @@ function Services() {
         </Table>
       </TableContainer>
 
-      <Dialog open={dialogOpen} onClose={handleCloseDialog} maxWidth="sm" fullWidth>
-        <DialogTitle>
-          {editingService ? 'Edit Service' : 'Add New Service'}
+      <Dialog 
+        open={dialogOpen} 
+        onClose={handleCloseDialog} 
+        maxWidth="sm" 
+        fullWidth
+        PaperProps={{
+          sx: { borderRadius: '20px', p: 1 }
+        }}
+      >
+        <DialogTitle sx={{ fontWeight: '800', fontFamily: '"Outfit", sans-serif', fontSize: '1.25rem', pb: 1 }}>
+          {editingService ? '✏️ Edit Service Details' : '✨ Add New Service'}
         </DialogTitle>
         <DialogContent>
-          {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
+          {error && <Alert severity="error" variant="outlined" sx={{ mb: 2, borderRadius: '10px' }}>{error}</Alert>}
           <Grid container spacing={2} sx={{ mt: 1 }}>
             <Grid item xs={12}>
               <TextField
