@@ -28,7 +28,7 @@ function Login({ onLogin }) {
         onLogin(response.data.token, response.data.admin);
       }
     } catch (err) {
-      setError(err.response?.data?.message || 'Login failed');
+      setError(err.response?.data?.detail || err.response?.data?.message || 'Login failed');
     } finally {
       setLoading(false);
     }

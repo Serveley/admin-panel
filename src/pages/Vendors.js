@@ -145,7 +145,7 @@ function Vendors() {
       handleCloseDialog();
       fetchVendors();
     } catch (err) {
-      setError(err.response?.data?.message || 'Operation failed');
+      setError(err.response?.data?.detail || err.response?.data?.message || 'Operation failed');
     } finally {
       setLoading(false);
     }
