@@ -12,8 +12,8 @@ import {
 import axios from 'axios';
 
 function Login({ onLogin }) {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState(process.env.REACT_APP_ADMIN_EMAIL || '');
+  const [password, setPassword] = useState(process.env.REACT_APP_ADMIN_PASSWORD || '');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -114,7 +114,7 @@ function Login({ onLogin }) {
             color="grey.500" 
             sx={{ mb: 4 }}
           >
-            Default: <span style={{ color: '#818cf8', fontWeight: 'bold' }}>admin@serveley.com</span> / <span style={{ color: '#818cf8', fontWeight: 'bold' }}>admin123</span>
+            Default: <span style={{ color: '#818cf8', fontWeight: 'bold' }}>{process.env.REACT_APP_ADMIN_EMAIL || 'admin@serveley.com'}</span> / <span style={{ color: '#818cf8', fontWeight: 'bold' }}>{process.env.REACT_APP_ADMIN_PASSWORD || 'admin123'}</span>
           </Typography>
  
           {error && (
