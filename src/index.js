@@ -4,6 +4,10 @@ import { BrowserRouter } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material';
 import CssBaseline from '@mui/material/CssBaseline';
 import App from './App';
+import axios from 'axios';
+
+// Configure Axios base URL: relative in dev (for local proxy), Render URL in prod
+axios.defaults.baseURL = process.env.REACT_APP_API_URL || (process.env.NODE_ENV === 'development' ? '' : 'https://backend-3kt5.onrender.com');
 
 const theme = createTheme({
   palette: {
